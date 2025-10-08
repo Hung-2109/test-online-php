@@ -1,1 +1,38 @@
+<?php
+function count_modifiers($s) {
+    $num_w = substr_count($s, 'w');
+    $extra = 0;
+    $modifiers = [];
+    $i = 0;
+    $n = strlen($s);
+    $pairs = ["aa", "aw", "ee", "ow", "uw", "dd"];
 
+    while ($i < $n) {
+        if ($i + 1 < $n) {
+            $pair = substr($s, $i, 2);
+            if (in_array($pair, $pairs)) {
+                $extra++;
+                $modifiers[] = $pair;
+                $i += 2;
+                continue;
+            }
+        }
+        if ($s[$i] === 'w') {
+            $modifiers[] = 'w';
+        }
+        $i++;
+    }
+
+    $total = $num_w + $extra;
+    return ['total' => $total, 'modifiers' => $modifiers];
+}
+
+$input_str = "hwfdawhwhcoomddfgwdc";
+
+$result = count_modifiers($input_str);
+$total = $result['total'];
+$modifiers = implode(", ", $result['modifiers']);
+
+echo "Input: " . $input_str . "<br>";
+echo "Output: " . $total . " (" . $modifiers . ")";
+?>
