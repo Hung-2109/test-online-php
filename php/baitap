@@ -1,0 +1,26 @@
+<?php
+function count_modifiers($s) {
+    $num_w = substr_count($s, 'w');
+    $extra = 0;
+    $i = 0;
+    $n = strlen($s);
+    $pairs = ["aa", "ee", "oo", "dd"];
+
+    while ($i < $n) {
+        if ($i + 1 < $n) {
+            $pair = substr($s, $i, 2);
+            if (in_array($pair, $pairs)) {
+                $extra++;
+                $i += 2;
+                continue;
+            }
+        }
+        $i++;
+    }
+    return $num_w + $extra;
+}
+
+$input_str = trim(fgets(STDIN));
+$result = count_modifiers($input_str);
+echo $result . PHP_EOL;
+?>
